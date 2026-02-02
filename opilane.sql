@@ -21,7 +21,13 @@ INSERT INTO opilane(eesnimi, perenimi, synniaeg,kas_opib)
 VALUES ('Nikita', 'petrovm', '2025-12-12', 1),
 ('Nikita', 'Alekseev', '2020-11-12', 1),
 ('Nikita', 'Nikita', '2021-12-13', 1);
+SELECT * FROM opilane;
+--ühe kirje kustutamine
+DELETE FROM opilane WHERE opilaneID=5;
 
+--kirje uuendamine
+SELECT * FROM opilane;
+UPDATE opilane SET aadress='Tallinn'
 
-Select * from opilane;
---muudame tabeli ja lisame piirangu UNIQUE
+SELECT * FROM opilane;
+
