@@ -1,0 +1,53 @@
+CREATE DATABASE Kalikas3;
+Use Kalikas3;
+
+--categories
+CREATE TABLE categories1(
+category_id int PRIMARY KEY identity(1,1),
+category_name varchar(30) unique);
+
+INSERT INTO categories1(category_name)
+VALUES ('T-särk'), ('mantel'), ('pusa'), ('pintsak');
+SELECT * FROM categories1;
+
+--brands
+CREATE TABLE brands1(
+brand_id int PRIMARY KEY identity(1,1),
+brand_name VARCHAR(50) unique);
+
+--products
+CREATE TABLE products (
+    product_id INT PRIMARY KEY IDENTITY(1,1),
+    product_name VARCHAR(50) NOT NULL,
+    brand_id INT,
+    category_id INT,
+    FOREIGN KEY (brand_id) REFERENCES brands1(brand_id),
+    FOREIGN KEY (category_id) REFERENCES categories1(category_id),
+    model_year INT,
+    list_price DECIMAL(7,2)
+);
+SELECT * FROM products
+
+--stocks
+CREATE TABLE stocks(
+store_id int,
+product_id int,
+quantity int,
+PRIMARY KEY (store_id, product_id),
+foreign key (product_id) references products(product_id)
+)
+SELECT * FROM stocks
+
+
+
+--customers
+CREATE TABLE customers(
+customer_id int PRIMARY KEY identity(1,1),
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+phone char(15),
+email VARCHAR(50) unique,
+street VARCHAR(50),
+city VARCHAR(50),
+state VARCHAR(50),
+zip_code char(5));
