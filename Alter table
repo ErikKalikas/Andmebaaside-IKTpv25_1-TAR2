@@ -1,0 +1,37 @@
+CREATE DATABASE xampppraktE
+USE xampppraktE
+
+CREATE TABLE Category(
+    idCategory INT PRIMARY KEY IDENTITY(1,1),
+    categoryName VARCHAR(25) NOT NULL UNIQUE
+);
+
+INSERT INTO Category(categoryName)
+Values
+('book')
+
+CREATE TABLE Product(
+    idProduct INT PRIMARY KEY IDENTITY(1,1),
+    ProductName VARCHAR(50) NOT NULL,
+    idCategory INT NOT NULL,
+    price INT NOT NULL,
+    FOREIGN KEY (idCategory) REFERENCES Category(idCategory),
+);
+
+INSERT INTO Product(ProductName, idCategory, price)
+Values ('book','1','20')
+
+CREATE TABLE Sale(
+    idSale INT PRIMARY KEY IDENTITY(1,1),
+    idProduct INT NOT NULL,
+    idCustomer INT NOT NULL,
+    Count INT NOT NULL,
+    DateOfSale DATE NOT NULL,
+    FOREIGN KEY (idProduct) REFERENCES Product(idProduct)
+);
+
+
+INSERT INTO Sale(idProduct, idCustomer , Count,  DateOfSale)
+Values ('1','1','35', '11-5-2025')
+SELECT *
+
