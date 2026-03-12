@@ -1,0 +1,127 @@
+CREATE DATABASE select2Erik
+USE select2Erik
+
+--select kahe tabeli põhjal
+
+--laps/loom tabeid
+
+CREATE TABLE laps(
+    lapsID int not null PRIMARY KEY identity,
+    nimi varchar(40) not null,
+    pikkus smallint,
+    synniaasta int null,
+    synnilinn varchar(15)
+    );
+	INSERT INTO laps(nimi, pikkus, synniaasta, synnilinn)
+	values 
+	('kirill', 156, 2005, 'tallinn'),
+	('nikita', 166, 2003, 'tallinn'),
+	('oleg', 134, 2010, 'tallinn'),
+	('maksim', 145, 2002, 'tallinn');
+	Select * from	 laps
+
+
+	--loom
+	CREATE TABLE loom(
+    loomID int not null PRIMARY KEY identity,
+    nimi varchar(40) not null,
+    kaal smallint,
+    lapsID int,
+    FOREIGN KEY (lapsID) REFERENCES laps(lapsID)  
+   );
+
+   insert INTO loom(nimi, kaal, lapsID)
+   values
+   ('kaas vasil', 4 , 1),
+   ('kaas Test', 3, 4),
+   ('kaas kilja', 2, 3),
+   ('kaas kärbes', 1, 2);
+   SELECT * from loom
+
+-- Alias kasutamine
+SELECT l.nimi, l.kaal 
+FROM loom AS l;
+
+
+-- INNER JOIN (õige viis)
+SELECT * FROM laps AS lp
+INNER JOIN loom AS l
+ON l.lapsID = lp.lapsID;
+
+
+-- ainult nimed
+SELECT 
+    lp.nimi AS lapsenimi,
+    l.nimi AS loomanimi,
+    l.kaal
+FROM laps AS lp
+INNER JOIN loom AS l
+ON l.lapsID = lp.lapsID;
+
+
+-- LEFT JOIN (näitab kõik lapsed isegi kui neil pole looma)
+SELECT 
+    lp.nimi AS lapsenimi,
+    l.nimi AS loomanimi,
+    l.kaal
+FROM laps AS lp
+LEFT JOIN loom AS l
+ON l.lapsID = lp.lapsID;
+
+
+-- RIGHT JOIN (näitab kõik loomad isegi kui laps puudub)
+SELECT 
+    lp.nimi AS lapsenimi,
+    l.nimi AS loomanimi,
+    l.kaal
+FROM laps AS lp
+RIGHT JOIN loom AS l
+ON l.lapsID = lp.lapsID;
+
+	--pilt konspelti
+
+	--right join
+  
+  --CROSS JOIN korrutatud tabelid
+  SELECT 
+    lp.nimi AS lapsenimi,
+    l.nimi AS loomanimi,
+    l.kaal
+FROM laps AS lp
+CROSS JOIN loom AS l
+
+
+--create table varjupalik(
+CREATE TABLE varjupaik(
+    varjupaikID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    koht VARCHAR(50) NOT NULL,
+    firma VARCHAR(30)
+);
+
+ALTER TABLE loom 
+ADD varjupaikID INT;
+
+ALTER TABLE loom 
+ADD CONSTRAINT fk_varjupaik
+FOREIGN KEY (varjupaikID) 
+REFERENCES varjupaik(varjupaikID);
+
+INSERT INTO varjupaik(koht, firma)
+values('paljassaare', 'varjupakide MTÜ');
+SELECT * from varjupaik;
+
+update loom set varjupaikID=1;
+SELECT * from loom;
+
+alter table loom drop column varjupalikID;
+
+-- select 3 / mitme tabelite põhjal
+SELECT 
+    lp.nimi AS lapsenimi,
+    l.nimi AS loomanimi,
+    v.koht
+FROM laps AS lp
+INNER JOIN loom AS l
+    ON l.lapsID = lp.lapsID
+INNER JOIN varjupaik AS v
+    ON l.varjupaikID = v.varjupaikID;
